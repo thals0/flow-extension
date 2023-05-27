@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Extensions</title>
+    <style>
+        ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        li {
+            display: flex;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>파일 확장자 차단</h1>
+<div>파일확장자에 따라 특정 형식의 파일을 첨부하거나 전송하지 못하도록 제한</div>
+<h2>고정 확장자</h2>
+<div>
+    <ul>
+        <li th:each="extension : ${fixedExtensions}">
+            <form th:action="@{/extensions/{id}/toggle(id=${extension.id})}" method="post">
+                <input type="checkbox" th:checked="${extension.checked}" onchange="this.form.submit()"/>
+            </form>
+            <span th:text="${extension.extensionName}"></span>
+        </li>
+    </ul>
+</div>
+
+<h2>커스텀 확장자</h2>
+<div>
+    <form action="/extensions/add" method="post" th:object="${customExtensionDTO}">
+        <label>확장자 입력:</label>
+        <input type="text" th:field="*{extensionName}" maxlength="20" placeholder="확장자 입력"/>
+        <button type="submit">추가</button>
+    </form>
+</div>
+
+<div>
+    <p th:text="${customExtensions.size() + '/' + 200}"></p>
+    <ul>
+        <li th:each="extension : ${customExtensions}">
+            <span th:text="${extension.extensionName}"></span>
+            <form th:action="@{/extensions/{id}/delete(id=${extension.id})}" method="post">
+                <button type="submit">X</button>
+            </form>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>
