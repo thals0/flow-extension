@@ -34,15 +34,15 @@ jobs:
         distribution: 'zulu'
         java-version: '8'
         
-    ## application.properties 파일 생성
-    - name: make application.properties
-      run: |
-        echo ">> mkdir & touch"
-        mkdir -p ./src/main/resources
-        cd ./src/main/resources
-        touch ./src/main/resources/application.properties
-        echo ">> copy application.properties"
-        echo "${{ secrets.APPLICATION_PROPERTIES }}" >> ./application.properties
+    # .gitignore에 등록된 application.properties 파일 생성
+    - uses: actions/checkout@v3
+    - run: touch ./src/main/resources/application.properties
+    - run: echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application.properties
+    - run: cat ./src/main/resources/application.properties
+
+    - name: Run chmod to make gradlew executable
+      run: chmod +x ./gradlew
+
 
     # (3) Gradle build (Test 제외)
     - name: Build with Gradle
