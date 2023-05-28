@@ -31,7 +31,7 @@
 </div>
 
 <h2>커스텀 확장자</h2>
-<div>
+<div style="margin-bottom: 20px;">
     <form action="/extensions/add" method="post" th:object="${customExtensionDTO}">
         <label>확장자 입력:</label>
         <input type="text" th:field="*{extensionName}" maxlength="20" placeholder="확장자 입력"/>
@@ -39,7 +39,7 @@
     </form>
 </div>
 
-<div>
+<div style="border: solid;">
     <p th:text="${customExtensions.size() + '/' + 200}"></p>
     <ul>
         <li th:each="extension : ${customExtensions}">
@@ -49,6 +49,12 @@
             </form>
         </li>
     </ul>
+</div>
+
+<div style="margin-top: 20px;">
+    <form action="/posts">
+        <button type="submit">Go to upload an image !</button>
+    </form>
 </div>
 
 </body>
